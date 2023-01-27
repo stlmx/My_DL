@@ -1,0 +1,6 @@
+tmp.py
+tmpr.py
+*.pyc
+.vscode/
+runs/*
+data/*
