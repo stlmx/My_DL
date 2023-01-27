@@ -6,8 +6,9 @@ from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 
 from torchvision import datasets, transforms
+from config.test import data_path
 
-path = "/data/dataset/ImageNet/"
+path = data_path
 
 def read_from_txt(type="meta/val.txt"):
     """return:{"img_name": "label"}

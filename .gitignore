@@ -4,3 +4,4 @@ tmpr.py
 .vscode/
 runs/*
 data/*
+config/test.py

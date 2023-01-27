@@ -14,6 +14,7 @@ from model import VisionTransformer
 
 
 def main():
+    print("test")
     parser = argparse.ArgumentParser()
     parser.add_argument("--local_rank", type=int, default=0)  # 增加local_rank
     args = parser.parse_args()
@@ -27,8 +28,8 @@ def main():
     train_sample = DistributedSampler(train_dataset)
     test_sample = DistributedSampler(test_dataset)
     
-    train_dataloader = DataLoader(train_dataset, batch_size=32, pin_memory=True, num_workers=12, sampler=train_sample)
-    test_dataloader = DataLoader(test_dataset, batch_size=32, pin_memory=True, num_workers=12, sampler=test_sample)
+    train_dataloader = DataLoader(train_dataset, batch_size=64, pin_memory=True, num_workers=12, sampler=train_sample)
+    test_dataloader = DataLoader(test_dataset, batch_size=64, pin_memory=True, num_workers=12, sampler=test_sample)
     
     model = VisionTransformer()
     model = model.cuda()
@@ -45,7 +46,7 @@ def main():
     loss_fn = nn.CrossEntropyLoss()
     
     optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)
-    
+    print("test here!!")
     epochs = 10
     for t in range(epochs):
         print(f"Epoch {t+1}\n-------------------------------")
@@ -88,6 +89,6 @@ def test_loop(dataloader, model, loss_fn):
     print(f"Test Error: \n Accuracy: {(100*correct):>0.1f}%, Avg loss: {test_loss:>8f} \n")
 
 
-if __name__==main:
+if __name__=='__main__':
     main()
 
