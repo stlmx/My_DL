@@ -1,13 +1,13 @@
-import torch
 import os
-from torch.utils.data import Dataset
-from torch.utils.data.distributed import DistributedSampler
-from torchvision import datasets, transforms
-from PIL import Image
-from torch.utils.data import DataLoader
-import torch.distributed as dist
 
-path = "/root/autodl-tmp/imagenet/"
+import torch
+import torch.distributed as dist
+from PIL import Image
+from torch.utils.data import DataLoader, Dataset
+
+from torchvision import datasets, transforms
+
+path = "/data/dataset/ImageNet/"
 
 def read_from_txt(type="meta/val.txt"):
     """return:{"img_name": "label"}
@@ -85,14 +85,4 @@ class MyImageNet(Dataset):
             label = label
         return img, label
 
-torch.cuda.set_device(0)
-dist.init_process_group('nccl', init_method="env://")
 
-train_dataset = MyImageNet(types='train', transform=trans_train)
-test_dataset = MyImageNet(types="test", transform=trans_test)
-
-train_sample = DistributedSampler(train_dataset)
-test_sample = DistributedSampler(test_dataset)
-
-train_dataloader = DataLoader(train_dataset, batch_size=64, pin_memory=True, num_workers=12, sampler=train_sample)
-test_dataloader = DataLoader(test_dataset, batch_size=64, pin_memory=True, num_workers=12, sampler=test_sample)
