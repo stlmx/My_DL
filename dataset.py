@@ -38,7 +38,7 @@ def label2onehot(file, num_classes=1000):
     
     label_onehot = torch.zeros((len_label, 1000))
     for idx, i in enumerate(label_list):
-        label_onehot[idx, i-1] = 1
+        label_onehot[idx, i] = 1
     return label_onehot
 
 norm = transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
@@ -50,7 +50,7 @@ trans_train = transforms.Compose([
 ])
 
 trans_test = transforms.Compose([
-    transforms.Resize(224),
+    transforms.Resize((224, 224)),
     transforms.ToTensor(),
     norm
 ])
@@ -85,5 +85,3 @@ class MyImageNet(Dataset):
         else:
             label = label
         return img, label
-
-
